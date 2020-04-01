@@ -9,7 +9,16 @@ const app = express();
 // second arguemnt res is short for response, it represent the outgoing response from our server back over to our browser
 //  any tiem someone makes a network request to the root route of my application we want to run this call back function, when that call back function runs we're going to take the string 'hi there' and send it back to whoever has made the requst to us
 app.get('/', (req, res) => {
-  res.send('hi there!');
+  res.send(`
+    <div>
+        <form>
+            <input name="email" placeholder="email"/>
+            <input name="password" placeholder="password"/>
+            <input name="passwordConfirmation" placeholder="password confirmation"/>
+            <button>Sign Up</button>
+        </form>
+    </div>
+  `);
 });
 
 // tell my application to start listening to incoming network traffic on a particular port on our machine
