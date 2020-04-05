@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 class UsersRepository {
   constructor(filename) {
     if (!filename) {
@@ -5,10 +7,14 @@ class UsersRepository {
     }
 
     this.filename = filename;
-    fs.accessSync(this.filename);
+    try {
+      fs.accessSync(this.filename);
+    } catch (err) {
+      fs.writeFileSync(this.filename, '[]');
+    }
   }
 
-  async checkForFile() {}
+  async getAll() {}
 }
 
-const repo = UsersRepository();
+const repo = new UsersRepository('users.json');
