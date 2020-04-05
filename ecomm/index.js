@@ -1,8 +1,11 @@
 // require in express which is a library for popular frameworks
 const express = require('express');
+const bodyParser = require('body-parser');
 
 // app is an object that describes all the different things our web server can do
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // route handler this is going to tell our web server exactly what to do when it recieves a network request coming from our browser
 // first arguement stands for request, an object that represents the incoming request from our browser into our web server
@@ -21,24 +24,7 @@ app.get('/', (req, res) => {
   `);
 });
 
-const bodyParser = (req, res, next) => {
-  if (req.method === 'POST') {
-    req.on('data', data => {
-      const parsed = data.toString('utf8').split('&');
-      const formData = {};
-      for (let pair of parsed) {
-        const [key, value] = pair.split('=');
-        formData[key] = value;
-      }
-      req.body = formData;
-      next();
-    });
-  } else {
-    next();
-  }
-};
-
-app.post('/', bodyParser, (req, res) => {
+app.post('/', (req, res) => {
   console.log(req.body);
   res.send('Account Created!!!');
 });
