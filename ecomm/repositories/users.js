@@ -15,16 +15,17 @@ class UsersRepository {
   }
 
   async getAll() {
-    // Open the file called this.filename
-    const contents = await fs.promises.readFile(this.filename, {
-      encoding: 'utf8'
-    });
-    // Read its contents
-
-    // Parse the contents
-    const data = JSON.parse(contents);
-    // Return the parsed data
-    return data;
+    return JSON.parse(
+      await fs.promises.readFile(this.filename, {
+        encoding: 'utf8'
+      })
+    );
+  }
+  async create(attrs) {
+    const records = await this.getAll();
+    records.push(attrs);
+    //write updated 'records' array back to users.json
+    await fs.promises.writeFile(this.filename, JSON.stringify(records));
   }
 }
 
