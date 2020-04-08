@@ -63,13 +63,14 @@ class UsersRepository {
     }
 
     Object.assign(record, attrs);
+    await this.writeAll(records);
   }
 }
 
 const test = async () => {
   const repo = new UsersRepository('users.json');
 
-  await repo.delete('1b91f477');
+  await repo.update('19bbf524', { password: 'mypassword' });
 };
 
 test();
