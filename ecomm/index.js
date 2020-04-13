@@ -1,6 +1,7 @@
 // require in express which is a library for popular frameworks
 const express = require('express');
 const bodyParser = require('body-parser');
+const usersRepo = require('./repositories/users');
 
 // app is an object that describes all the different things our web server can do
 const app = express();
@@ -24,8 +25,13 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.post('/', (req, res) => {
-  console.log(req.body);
+app.post('/', async (req, res) => {
+  const { email, password, passwordConfirmation } = req.body;
+  const existingUser = await usersRepo.getOneBy({ email });
+  if (existingUser) {
+    return res.send('Email in use');
+  }
+
   res.send('Account Created!!!');
 });
 
